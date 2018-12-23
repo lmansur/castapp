@@ -52,7 +52,7 @@ class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
     const term = this.props.navigation.getParam('term');
-    this.state = { isLoading: true, term: term, collection: [] }
+    this.state = { isLoading: true, term: term }
   }
 
   componentDidMount() {
@@ -84,14 +84,18 @@ class SearchScreen extends React.Component {
       })
   }
 
-  addPodcast(item) {
-    var newCollection = this.state.collection
-    newCollection.push(item)
-
+  _addPodcast(item) {
+    const previousCollection = this.state.collection || []
+    const podcast = {
+      artworkUrl100: item.artworkUrl100,
+      collectionName: item.collectionName,
+      artistName: item.artistName,
+    };
+    const collection = [podcast];
+    collection.push(...previousCollection);
     this.setState({
-      collection: newCollection
+      collection: collection,
     });
-    console.log(this.state);
   }
 
   renderPodcast(item) {
@@ -102,7 +106,7 @@ class SearchScreen extends React.Component {
         title={item.collectionName}
         subtitle={item.artistName}
         rightIcon={{name: 'add' }}
-        onPressRightIcon={this.addPodcast.bind(this, item)}
+        onPressRightIcon={this._addPodcast.bind(this, item)}
       />
     )
   }
@@ -181,23 +185,6 @@ class PodcastsScreen extends React.Component {
         />
       </View>
     );
-
-    {
-      /*
-       return (
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-          <Text>id: { JSON.stringify(id) }</Text>
-          <Text>amount: { JSON.stringify(amount) }</Text>
-          <Text>description: { JSON.stringify(description) }</Text>
-
-          <Button
-            title="Generate new ID"
-            onPress={() => navigation.setParams({ id: Math.floor(Math.random() * 10) })}
-          />
-        </View>
-      );
-      */
-    }
   }
 }
 
