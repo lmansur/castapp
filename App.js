@@ -1,13 +1,31 @@
 import React from "react";
 import {
-  TouchableOpacity, StyleSheet, FlatList, Image, ActivityIndicator, View, Text, Button
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  Image,
+  ActivityIndicator,
+  View,
+  Text,
+  Button
 } from "react-native";
+
 import {
-  SearchBar, Icon, List, ListItem
+  SearchBar,
+  Icon,
+  List,
+  ListItem
 } from "react-native-elements";
+
 import {
-  createBottomTabNavigator, createStackNavigator, createAppContainer, createDrawerNavigator
+  createBottomTabNavigator,
+  createStackNavigator,
+  createAppContainer,
+  createDrawerNavigator
 } from "react-navigation";
+
+import Player from './src/components/player';
 
 const styles = StyleSheet.create({
   item: {
@@ -174,13 +192,15 @@ class PodcastsScreen extends React.Component {
           keyExtractor={(item) => `podcast-${item.trackId}`}
           renderItem={({ item }) => {
             return (
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('Player', {  poadcast: item })}>
               <View style={styles.item}>
                 <Image
                   source={{uri: item.artworkUrl600 }}
                   style={styles.itemImage}
                 />
               </View>
-            )
+            </TouchableWithoutFeedback>
+              )
           }}
         />
       </View>
@@ -217,7 +237,7 @@ class ProfileScreen extends React.Component {
 }
 const PlayerStack = createStackNavigator(
   {
-    Player: PlayerScreen
+    Player: Player
   },
   {
     initialRouteName: "Player",
@@ -237,6 +257,7 @@ const PodcastsStack = createStackNavigator(
   {
     Podcasts: PodcastsScreen,
     Search: SearchScreen,
+    Player: Player
   },
   {
     initialRouteName: "Podcasts",
@@ -255,7 +276,7 @@ const PodcastsStack = createStackNavigator(
 const DrawerNavigator = createDrawerNavigator(
   {
     Podcasts: PodcastsStack,
-    Player: PlayerStack,
+    // Player: PlayerStack,
   },
   {
   }
