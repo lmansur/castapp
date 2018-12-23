@@ -52,7 +52,7 @@ class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
     const term = this.props.navigation.getParam('term');
-    this.state = { isLoading: true, term: term }
+    this.state = { isLoading: true, term: term, collection: [] }
   }
 
   componentDidMount() {
@@ -84,6 +84,16 @@ class SearchScreen extends React.Component {
       })
   }
 
+  addPodcast(item) {
+    var newCollection = this.state.collection
+    newCollection.push(item)
+
+    this.setState({
+      collection: newCollection
+    });
+    console.log(this.state);
+  }
+
   renderPodcast(item) {
     return (
       <ListItem
@@ -92,6 +102,7 @@ class SearchScreen extends React.Component {
         title={item.collectionName}
         subtitle={item.artistName}
         rightIcon={{name: 'add' }}
+        onPressRightIcon={this.addPodcast.bind(this, item)}
       />
     )
   }
