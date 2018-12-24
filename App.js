@@ -19,13 +19,23 @@ import {
 } from "react-native-elements";
 
 import {
-  createBottomTabNavigator,
   createStackNavigator,
   createAppContainer,
   createDrawerNavigator
 } from "react-navigation";
 
 import Player from './src/components/player';
+
+const Realm = require('realm');
+
+const PodcastSchema = {
+  name: 'Podcast',
+  properties: { 
+    title: 'string',
+    artist: 'string',
+    artwork: 'string',
+  }
+}
 
 const styles = StyleSheet.create({
   item: {
@@ -70,26 +80,17 @@ class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
     const term = this.props.navigation.getParam('term');
-    this.state = { isLoading: true, term: term }
+    this.state = { 
+      isLoading: true,
+      term: term,
+      realm: null
+    }
   }
 
   componentDidMount() {
     this.fetchPodcasts(this.state.term)
   }
 
-  sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  fetchPodcastsMock() {
-    this.sleep(2000).then(() => {
-      this.setState({
-        isLoading: false,
-        data: podcastData
-      });
-    });
-  }
-  
   fetchPodcasts(term) {
     fetch(`https://itunes.apple.com/search?media=podcast&term=${term}&limit=20`)
       .then((response) => response.json())
@@ -102,17 +103,19 @@ class SearchScreen extends React.Component {
       })
   }
 
-  _addPodcast(item) {
-    const previousCollection = this.state.collection || []
-    const podcast = {
-      artworkUrl100: item.artworkUrl100,
-      collectionName: item.collectionName,
-      artistName: item.artistName,
-    };
-    const collection = [podcast];
-    collection.push(...previousCollection);
-    this.setState({
-      collection: collection,
+  subscribeToPodcast(item) {
+    Realm.open({
+      schema: [PodcastSchema],
+      schemaVersion: 2,
+    }).then(realm => {
+      realm.write(() => {
+        realm.create('Podcast', {
+          title: item.collectionName,
+          artist: item.artistName,
+          artwork: item.artworkUrl600,
+        });
+      });
+      this.setState({ realm });
     });
   }
 
@@ -124,7 +127,7 @@ class SearchScreen extends React.Component {
         title={item.collectionName}
         subtitle={item.artistName}
         rightIcon={{name: 'add' }}
-        onPressRightIcon={this._addPodcast.bind(this, item)}
+        onPressRightIcon={this.subscribeToPodcast.bind(this, item)}
       />
     )
   }
@@ -175,9 +178,19 @@ class PodcastsScreen extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      podcasts: podcastData
+      podcasts: null
     };
+
+    Realm.open({
+      schema: [PodcastSchema],
+      schemaVersion: 2,
+    }
+    ).then(realm => {
+      let podcasts = realm.objects('Podcast');
+      this.setState({podcasts: podcasts})
+    });
   }
 
   render() {
@@ -195,7 +208,7 @@ class PodcastsScreen extends React.Component {
             <TouchableWithoutFeedback onPress={() => navigation.navigate('Player', {  poadcast: item })}>
               <View style={styles.item}>
                 <Image
-                  source={{uri: item.artworkUrl600 }}
+                  source={{uri: item.artwork }}
                   style={styles.itemImage}
                 />
               </View>
@@ -235,6 +248,7 @@ class ProfileScreen extends React.Component {
     );
   }
 }
+
 const PlayerStack = createStackNavigator(
   {
     Player: Player
