@@ -99,7 +99,8 @@ export default class Player extends Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: 'rgb(4,4,4)',
+    backgroundColor: '#fff',
+    fontColor: '#333',
   },
   audioElement: {
     height: 0,

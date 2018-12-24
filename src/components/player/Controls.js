@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import theme from '../../styles/theme';
 
 import shuffle from './images/ic_shuffle_white.png';
 import skipPrevious from './images/ic_skip_previous_white_36pt.png';
@@ -73,7 +74,8 @@ const styles = StyleSheet.create({
     height: 72,
     width: 72,
     borderWidth: 1,
-    borderColor: 'white',
+    backgroundColor: theme.primaryColor,
+    borderColor: theme.primaryColor,
     borderRadius: 72 / 2,
     alignItems: 'center',
     justifyContent: 'center',

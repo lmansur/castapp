@@ -263,9 +263,9 @@ const PodcastsStack = createStackNavigator(
     initialRouteName: "Podcasts",
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#f4511e',
+        backgroundColor: '#fff',
       },
-      headerTintColor: '#fff',
+      headerTintColor: '#333',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
