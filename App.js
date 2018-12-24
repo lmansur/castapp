@@ -1,19 +1,15 @@
 import React from "react";
 import {
   TouchableWithoutFeedback,
-  TouchableOpacity,
   StyleSheet,
   FlatList,
   Image,
   ActivityIndicator,
   View,
-  Text,
-  Button
 } from "react-native";
 
 import {
   SearchBar,
-  Icon,
   List,
   ListItem
 } from "react-native-elements";
@@ -157,16 +153,6 @@ class PodcastsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: "Podcasts",
-      bakheaderRight: (
-        <Icon
-          color='#fff'
-          underlayColor='#f4511e'
-          component={ TouchableOpacity }
-          name='search'
-          iconStyle={styles.searchIcon}
-          onPress={() => navigation.navigate('Search')}
-        />
-      ),
       headerRight: (
         <SearchBar
           round
@@ -195,7 +181,6 @@ class PodcastsScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const id = navigation.getParam('id');
 
     return (
       <View>
@@ -221,52 +206,6 @@ class PodcastsScreen extends React.Component {
   }
 }
 
-class PlayerScreen extends React.Component {
-  static navigationOptions = {
-    title: "Player" 
-  };
-
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Player Screen</Text>
-        <Button
-          title="Profile"
-          onPress={() => this.props.navigation.navigate('Profile')}
-        />
-      </View>
-    );
-  }
-}
-
-class ProfileScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Profile Screen</Text>
-      </View>
-    );
-  }
-}
-
-const PlayerStack = createStackNavigator(
-  {
-    Player: Player
-  },
-  {
-    initialRouteName: "Player",
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: '#f4511e',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    },
-  }
-);
-
 const PodcastsStack = createStackNavigator(
   {
     Podcasts: PodcastsScreen,
@@ -290,7 +229,6 @@ const PodcastsStack = createStackNavigator(
 const DrawerNavigator = createDrawerNavigator(
   {
     Podcasts: PodcastsStack,
-    // Player: PlayerStack,
   },
   {
   }
