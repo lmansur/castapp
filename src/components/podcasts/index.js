@@ -7,6 +7,8 @@ import {
   FlatList,
 } from 'react-native'
 
+import { connect } from 'react-redux';
+
 import Podcast from './Podcast'
 
 const Realm = require('realm');
@@ -37,7 +39,14 @@ class Podcasts extends Component {
 
   constructor(props) {
     super(props);
+    this.props.navigation.addListener(
+      'didFocus',
+      payload => {
+        console.log(this.state);
+      }
+    );
 
+    /*
     this.state = {
       podcasts: null
     };
@@ -50,6 +59,7 @@ class Podcasts extends Component {
       let podcasts = realm.objects('Podcast');
       this.setState({podcasts: podcasts})
     });
+    */
   }
 
   _renderPodcast(item) {
@@ -60,7 +70,7 @@ class Podcasts extends Component {
     return (
       <View>
         <FlatList
-          data={this.state.podcasts}
+          data={this.props.podcasts}
           numColumns={3}
           keyExtractor={(item) => `podcast-${item.trackId}`}
           renderItem={({item}) => this._renderPodcast(item)}
@@ -70,4 +80,11 @@ class Podcasts extends Component {
   }
 }
 
-export default Podcasts;
+const mapStateToProps = (state) => {
+  const { podcasts } = state;
+  return {
+    podcasts: podcasts
+  }
+};
+
+export default connect(mapStateToProps)(Podcasts);
