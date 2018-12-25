@@ -22,6 +22,7 @@ const AlbumArt = ({
 export default AlbumArt;
 
 const { width, height } = Dimensions.get('window');
+console.log(width);
 const imageSize = width - 192;
 
 const styles = StyleSheet.create({

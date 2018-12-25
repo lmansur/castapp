@@ -267,7 +267,7 @@ const PodcastsStack = createStackNavigator(
       },
       headerTintColor: '#333',
       headerTitleStyle: {
-        fontWeight: 'bold',
+        fontWeight: 'tiny',
       },
     },
   }
