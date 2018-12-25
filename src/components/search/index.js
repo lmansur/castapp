@@ -1,3 +1,6 @@
+import React from "react";
+import PropTypes from 'prop-types';
+
 import {
   List,
   ListItem
@@ -9,31 +12,35 @@ import {
   View,
 } from "react-native";
 
-import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addPodcast } from '../../../actions';
 
-const Realm = require('realm');
+// import Realm from 'realm';
 
-const PodcastSchema = {
-  name: 'Podcast',
-  properties: { 
-    title: 'string',
-    artist: 'string',
-    artwork: 'string',
+// const PodcastSchema = {
+//   name: 'Podcast',
+//   properties: {
+//     title: 'string',
+//     artist: 'string',
+//     artwork: 'string',
+//   }
+// }
+
+class Search extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.object,
+    addPodcast: PropTypes.func,
   }
-}
 
-class Search extends Component {
   static navigationOptions = {
-    title: "Search" 
-  };
-  
+    title: "Search"
+  }
+
   constructor(props) {
     super(props);
     const term = this.props.navigation.getParam('term');
-    this.state = { 
+    this.state = {
       isLoading: true,
       term: term,
       realm: null
@@ -73,6 +80,7 @@ class Search extends Component {
     });
     */
     this.props.addPodcast(item);
+    this.props.navigation.navigate('Podcasts');
   }
 
   renderPodcast(item) {

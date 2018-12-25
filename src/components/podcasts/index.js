@@ -1,70 +1,75 @@
-import React, { Component } from 'react';
-import {
-  SearchBar,
-} from "react-native-elements";
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import {
   View,
   FlatList,
 } from 'react-native'
 
+import {
+  SearchBar,
+} from "react-native-elements";
+
 import { connect } from 'react-redux';
 
 import Podcast from './Podcast'
 
-const Realm = require('realm');
+// import Realm from 'realm';
 
-const PodcastSchema = {
-  name: 'Podcast',
-  properties: { 
-    title: 'string',
-    artist: 'string',
-    artwork: 'string',
-  }
-}
+// const PodcastSchema = {
+//   name: 'Podcast',
+//   properties: {
+//     title: 'string',
+//     artist: 'string',
+//     artwork: 'string',
+//   }
+// }
 
-class Podcasts extends Component {
+class Podcasts extends React.Component {
+  static propTypes = {
+    podcasts: PropTypes.array,
+  };
+
   static navigationOptions = ({ navigation }) => {
+    const onSubmitEditing = (event) => {
+      navigation.navigate("Search", { term: event.nativeEvent.text });
+    };
+
     return {
       headerTitle: "Podcasts",
       headerRight: (
         <SearchBar
           round
           lightTheme
+          text="locked"
           containerStyle={{backgroundColor: '#fff'}}
-          onSubmitEditing={(event) => { navigation.navigate("Search", { term: event.nativeEvent.text }) }}
+          onSubmitEditing={onSubmitEditing}
         />
       )
     }
   };
 
-  constructor(props) {
-    super(props);
-    this.props.navigation.addListener(
-      'didFocus',
-      payload => {
-        console.log(this.state);
-      }
-    );
+  // constructor(props) {
+  //   [>
+  //   this.state = {
+  //     podcasts: null
+  //   };
 
-    /*
-    this.state = {
-      podcasts: null
-    };
-
-    Realm.open({
-      schema: [PodcastSchema],
-      schemaVersion: 2,
-    }
-    ).then(realm => {
-      let podcasts = realm.objects('Podcast');
-      this.setState({podcasts: podcasts})
-    });
-    */
+  //   Realm.open({
+  //     schema: [PodcastSchema],
+  //     schemaVersion: 2,
+  //   }
+  //   ).then(realm => {
+  //     let podcasts = realm.objects('Podcast');
+  //     this.setState({podcasts: podcasts})
+  //   });
+  //   */
+  // }
+  getTrackId = (podcast) => {
+    return `podcast-${podcast.trackId}`;
   }
 
-  _renderPodcast(item) {
-    return <Podcast item={ item } />
-  }
+  renderPodcast = ({item}) => <Podcast item={item} />
 
   render() {
     return (
@@ -72,8 +77,8 @@ class Podcasts extends Component {
         <FlatList
           data={this.props.podcasts}
           numColumns={3}
-          keyExtractor={(item) => `podcast-${item.trackId}`}
-          renderItem={({item}) => this._renderPodcast(item)}
+          keyExtractor={this.getTrackId}
+          renderItem={this.renderPodcast}
         />
       </View>
     );
@@ -81,9 +86,8 @@ class Podcasts extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { podcasts } = state;
   return {
-    podcasts: podcasts
+    podcasts: Object.values(state.podcasts)
   }
 };
 
