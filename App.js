@@ -10,10 +10,14 @@ import Player from './src/components/player';
 import Podcasts from './src/components/podcasts';
 import Search from './src/components/search';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import reducer from './reducers';
+import thunk from 'redux-thunk';
 
-const store = createStore(reducer);
+const store = createStore(
+  reducer,
+  applyMiddleware(thunk),
+);
 
 const PodcastsStack = createStackNavigator(
   {

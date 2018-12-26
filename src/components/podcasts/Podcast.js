@@ -17,7 +17,7 @@ class Podcast extends Component {
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Player', {  poadcast: item })}>
         <View style={styles.item}>
           <Image
-            source={{uri: item.artworkUrl600 }}
+            source={{uri: item.artwork }}
             style={styles.itemImage}
           />
         </View>

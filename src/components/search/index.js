@@ -14,17 +14,6 @@ import {
 import { connect } from 'react-redux';
 import Item from './Item';
 
-// import Realm from 'realm';
-
-// const PodcastSchema = {
-//   name: 'Podcast',
-//   properties: {
-//     title: 'string',
-//     artist: 'string',
-//     artwork: 'string',
-//   }
-// }
-
 class Search extends React.Component {
   static propTypes = {
     navigation: PropTypes.object,
@@ -40,7 +29,6 @@ class Search extends React.Component {
     this.state = {
       isLoading: true,
       term: term,
-      realm: null
     }
   }
 
@@ -82,8 +70,8 @@ class Search extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { isLoading, data, term, realm } = state;
-  return { isLoading, data, term, realm };
+  const { isLoading, data, term } = state;
+  return { isLoading, data, term };
 };
 
 export default connect(mapStateToProps)(Search);

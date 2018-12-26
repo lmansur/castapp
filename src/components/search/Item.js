@@ -34,21 +34,6 @@ class Item extends React.Component {
   }
 
   subscribeToPodcast(item) {
-    /*
-    Realm.open({
-      schema: [PodcastSchema],
-      schemaVersion: 2,
-    }).then(realm => {
-      realm.write(() => {
-        realm.create('Podcast', {
-          title: item.collectionName,
-          artist: item.artistName,
-          artwork: item.artworkUrl600,
-        });
-      });
-      this.setState({ realm });
-    });
-    */
     this.props.addPodcast(item);
     this.setState({
       icon: { name: 'check' },

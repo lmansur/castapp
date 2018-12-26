@@ -10,24 +10,17 @@ import {
   SearchBar,
 } from "react-native-elements";
 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Podcast from './Podcast'
 
-// import Realm from 'realm';
-
-// const PodcastSchema = {
-//   name: 'Podcast',
-//   properties: {
-//     title: 'string',
-//     artist: 'string',
-//     artwork: 'string',
-//   }
-// }
+import { loadPodcasts } from '../../../actions';
 
 class Podcasts extends React.Component {
   static propTypes = {
     podcasts: PropTypes.array,
+    loadPodcasts: PropTypes.func,
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -41,7 +34,6 @@ class Podcasts extends React.Component {
         <SearchBar
           round
           lightTheme
-          text="locked"
           containerStyle={{backgroundColor: '#fff'}}
           onSubmitEditing={onSubmitEditing}
         />
@@ -49,22 +41,12 @@ class Podcasts extends React.Component {
     }
   };
 
-  // constructor(props) {
-  //   [>
-  //   this.state = {
-  //     podcasts: null
-  //   };
+  constructor(props) {
+    super(props);
 
-  //   Realm.open({
-  //     schema: [PodcastSchema],
-  //     schemaVersion: 2,
-  //   }
-  //   ).then(realm => {
-  //     let podcasts = realm.objects('Podcast');
-  //     this.setState({podcasts: podcasts})
-  //   });
-  //   */
-  // }
+    this.props.loadPodcasts();
+  }
+
   getTrackId = (podcast) => {
     return `podcast-${podcast.trackId}`;
   }
@@ -91,4 +73,10 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(Podcasts);
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    loadPodcasts,
+  }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Podcasts);
