@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "install": "^0.12.2",
+    "prop-types": "^15.6.2",
     "react": "16.6.3",
     "react-native": "0.57.8",
     "react-native-elements": "^0.19.1",
@@ -16,7 +17,11 @@
     "react-native-grid-list": "^1.0.9",
     "react-native-slider": "^0.11.0",
     "react-native-vector-icons": "^6.1.0",
-    "react-navigation": "^3.0.9"
+    "react-navigation": "^3.0.9",
+    "react-redux": "^6.0.0",
+    "realm": "^2.21.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
