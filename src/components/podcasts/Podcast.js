@@ -14,7 +14,8 @@ class Podcast extends Component {
     const { navigation, item } = this.props;
 
     return (
-      <TouchableWithoutFeedback onPress={() => navigation.navigate('Player', {  poadcast: item })}>
+      //<TouchableWithoutFeedback onPress={() => navigation.navigate('Player', {  poadcast: item })}>
+      <TouchableWithoutFeedback onPress={() => navigation.navigate('Podcast', { trackId: item.trackId })}>
         <View style={styles.item}>
           <Image
             source={{uri: item.artwork }}

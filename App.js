@@ -8,6 +8,7 @@ import {
 
 import Player from './src/components/player';
 import Podcasts from './src/components/podcasts';
+import Podcast from './src/components/podcast';
 import Search from './src/components/search';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -22,6 +23,7 @@ const store = createStore(
 const PodcastsStack = createStackNavigator(
   {
     Podcasts: Podcasts,
+    Podcast: Podcast,
     Search: Search,
     Player: Player
   },
