@@ -87,7 +87,7 @@ export default class Player extends Component {
       <View style={styles.container}>
         <StatusBar hidden={true} />
         <Header message={headerMessage} />
-        <AlbumArt url={poadcast.artworkUrl100} />
+        <AlbumArt url={poadcast.artwork} />
         <TrackDetails title="Stressed Out" artist="Twenty One Pilots" />
         <SeekBar trackLength={204} currentPosition={156} />
         <Controls />
