@@ -13,6 +13,7 @@ const podcastReducer = (state = INITIAL_STATE, action) => {
           title: podcast.collectionName,
           artist: podcast.artistName,
           artwork: podcast.artworkUrl600,
+          feedUrl: podcast.feedUrl,
         }};
     }
     case 'LOAD_PODCASTS': {

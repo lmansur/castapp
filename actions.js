@@ -5,8 +5,10 @@ const PodcastSchema = {
   properties: {
     trackId: 'int',
     title: 'string',
+    description: 'string',
     artist: 'string',
     artwork: 'string',
+    feedUrl: 'string',
   }
 }
 
@@ -14,7 +16,7 @@ export function addPodcast(podcast) {
   return dispatch => {
     Realm.open({
       schema: [PodcastSchema],
-      schemaVersion: 4,
+      schemaVersion: 6,
     }).then(realm => {
       realm.write(() => {
         realm.create('Podcast', {
@@ -22,6 +24,7 @@ export function addPodcast(podcast) {
           title: podcast.collectionName,
           artist: podcast.artistName,
           artwork: podcast.artworkUrl600,
+          feedUrl: podcast.feedUrl,
         });
       });
     }).then(() => {
@@ -39,7 +42,7 @@ export function loadPodcasts() {
 
     Realm.open({
       schema: [PodcastSchema],
-      schemaVersion: 4,
+      schemaVersion: 6,
     }).then(realm => {
       podcasts = realm.objects('Podcast');
     }).then(() => {
