@@ -26,6 +26,7 @@ export function addPodcast(podcast) {
       })
       .then(json => {
         let description = json.rss.channel.description;
+        podcast.description = description;
 
         Realm.open({
           schema: [PodcastSchema],

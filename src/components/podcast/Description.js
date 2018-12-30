@@ -21,7 +21,7 @@ class Description extends React.Component {
     return (
       <View style={styles.descriptionContainer}>
         <Text style={styles.description}>
-          Soft Skills Engineering is a weekly advice podcast for software developers. We answer questions about all the stuff you didnt realize you needed to know about being an engineer
+          { this.props.description }
         </Text>
       </View>
     )

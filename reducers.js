@@ -14,6 +14,7 @@ const podcastReducer = (state = INITIAL_STATE, action) => {
           artist: podcast.artistName,
           artwork: podcast.artworkUrl600,
           feedUrl: podcast.feedUrl,
+          description: podcast.description,
         }};
     }
     case 'LOAD_PODCASTS': {
