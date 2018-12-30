@@ -1,5 +1,7 @@
 import Realm from 'realm';
 
+import parser from 'fast-xml-parser';
+
 const PodcastSchema = {
   name: 'Podcast',
   properties: {
@@ -14,25 +16,39 @@ const PodcastSchema = {
 
 export function addPodcast(podcast) {
   return dispatch => {
-    Realm.open({
-      schema: [PodcastSchema],
-      schemaVersion: 6,
-    }).then(realm => {
-      realm.write(() => {
-        realm.create('Podcast', {
-          trackId: podcast.trackId,
-          title: podcast.collectionName,
-          artist: podcast.artistName,
-          artwork: podcast.artworkUrl600,
-          feedUrl: podcast.feedUrl,
+    let url = podcast.feedUrl;
+    fetch(url, { headers: { "Content-Type": "applicaton/xml", "Accept": "applicaton/xml" } }).
+      then(response => {
+        return response.text();
+      })
+      .then(result => {
+        return parser.parse(result);
+      })
+      .then(json => {
+        let description = json.rss.channel.description;
+
+        Realm.open({
+          schema: [PodcastSchema],
+          schemaVersion: 6,
+        }).then(realm => {
+          realm.write(() => {
+            realm.create('Podcast', {
+              trackId: podcast.trackId,
+              title: podcast.collectionName,
+              artist: podcast.artistName,
+              artwork: podcast.artworkUrl600,
+              feedUrl: podcast.feedUrl,
+              description: description,
+            });
+          });
+        })
+      })
+      .then(() => {
+        dispatch({
+          type: 'ADD_PODCAST',
+          payload: podcast
         });
       });
-    }).then(() => {
-      dispatch({
-        type: 'ADD_PODCAST',
-        payload: podcast
-      });
-    });
   }
 }
 
