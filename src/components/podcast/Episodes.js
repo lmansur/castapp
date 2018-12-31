@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import {
   View,
   Text,
@@ -69,6 +71,10 @@ const titleStyle = StyleSheet.create({
 });
 
 class Episodes extends React.Component {
+  static propTypes = {
+    podcast: PropTypes.object,
+  };
+
   render() {
     return (
       <View style={styles.episodesContainer}>
@@ -76,11 +82,18 @@ class Episodes extends React.Component {
         <View style={styles.episodes}>
           <View style={styles.episodeCard}>
             <View style={styles.cardContainer}>
-              <Title style={titleStyle}/>
+              <Title
+                style={titleStyle}
+                title={this.props.podcast.title}
+                artworkUrl={this.props.podcast.artwork}
+                artist={this.props.podcast.artist}
+              />
               <View style={styles.cardSection}>
-                <Text style={styles.description}>
-                  Soft Skills Engineering is a weekly advice podcast for software developers.
-                  We answer questions about all the stuff you didnt realize you needed to know about being an engineer.
+                <Text
+                  style={styles.description}
+                  numberOfLines={3}
+                >
+                  { this.props.podcast.description }
                 </Text>
               </View>
               <View style={styles.cardFooter}>

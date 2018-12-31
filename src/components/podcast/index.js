@@ -29,14 +29,16 @@ class Podcast extends React.Component {
     return (
       <View style={styles.container}>
         <Title
-          podcastName={this.props.podcast.title}
+          title={this.props.podcast.title}
           artworkUrl={this.props.podcast.artwork}
           artist={this.props.podcast.artist}
         />
         <Description
           description={this.props.podcast.description}
         />
-        <Episodes/>
+        <Episodes
+          podcast={this.props.podcast}
+        />
       </View>
     )
   }

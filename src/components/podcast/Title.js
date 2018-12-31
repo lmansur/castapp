@@ -36,7 +36,7 @@ class Title extends React.Component {
   static propTypes = {
     style: PropTypes.object,
     artworkUrl: PropTypes.string,
-    podcastName: PropTypes.string,
+    title: PropTypes.string,
     artist: PropTypes.string,
   };
 
@@ -54,7 +54,7 @@ class Title extends React.Component {
         </View>
         <View style={styles.titlesContainer}>
           <Text style={styles.title}>
-            { this.props.podcastName }
+            { this.props.title }
           </Text>
           <Text style={styles.subtitle}>
             { this.props.artist }
