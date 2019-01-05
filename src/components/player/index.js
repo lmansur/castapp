@@ -1,18 +1,44 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
-  StatusBar,
 } from 'react-native';
 
-import Header from './Header';
 import AlbumArt from './AlbumArt';
 import TrackDetails from './TrackDetails';
 import SeekBar from './SeekBar';
 import Controls from './Controls';
 
-export default class Player extends Component {
+import theme from '../../styles/theme';
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    fontColor: '#333',
+    paddingTop: 20,
+  },
+  audioElement: {
+    height: 0,
+    width: 0,
+ },
+ header: {
+   backgroundColor: theme.backgroundColor,
+   elevation: 0,
+ },
+ headerTitle: {
+   flex: 1,
+   fontWeight: 'bold',
+   color: theme.fontColor,
+   textAlign: 'center',
+ },
+};
+
+export default class Player extends React.Component {
   static navigationOptions = {
-    title: "Playing Now"
+    title: "Playing now",
+    headerStyle: styles.header,
+    headerTitleStyle: styles.headerTitle,
+    // headerRight: (<Text>XXX<Text/>),
   };
 
   constructor(props) {
@@ -27,13 +53,24 @@ export default class Player extends Component {
     };
   }
 
+  render() {
+    const poadcast = this.props.navigation.getParam('poadcast');
+
+    return (
+      <View style={styles.container}>
+        <AlbumArt url={poadcast.artwork} />
+        <TrackDetails title="Stressed Out" artist="Twenty One Pilots" />
+        <SeekBar trackLength={204} currentPosition={156} />
+        <Controls />
+      </View>
+    );
+  }
+
   setDuration(data) {
-    // console.log(totalLength);
     this.setState({totalLength: Math.floor(data.duration)});
   }
 
   setTime(data) {
-    //console.log(data);
     this.setState({currentPosition: Math.floor(data.currentTime)});
   }
 
@@ -78,32 +115,4 @@ export default class Player extends Component {
       }), 0);
     }
   }
-
-  render() {
-    const poadcast = this.props.navigation.getParam('poadcast');
-    const headerMessage = `Playing ${poadcast.trackName}`;
-
-    return (
-      <View style={styles.container}>
-        <StatusBar hidden={true} />
-        <Header message={headerMessage} />
-        <AlbumArt url={poadcast.artwork} />
-        <TrackDetails title="Stressed Out" artist="Twenty One Pilots" />
-        <SeekBar trackLength={204} currentPosition={156} />
-        <Controls />
-      </View>
-    );
-  }
 }
-
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    fontColor: '#333',
-  },
-  audioElement: {
-    height: 0,
-    width: 0,
-  }
-};
