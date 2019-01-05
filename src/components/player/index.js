@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Text,
 } from 'react-native';
 
 import AlbumArt from './AlbumArt';
@@ -59,7 +58,7 @@ export default class Player extends React.Component {
 
     return (
       <View style={styles.container}>
-        <AlbumArt url={poadcast.artworkUrl100} />
+        <AlbumArt url={poadcast.artwork} />
         <TrackDetails title="Stressed Out" artist="Twenty One Pilots" />
         <SeekBar trackLength={204} currentPosition={156} />
         <Controls />
